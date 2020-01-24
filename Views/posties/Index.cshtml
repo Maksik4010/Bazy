@@ -1,71 +1,28 @@
 ﻿@model IEnumerable<WebApplication16.Models.posty>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Portal - Strona główna";
 }
 
-<h1>Index</h1>
+<!--TODO: WIDOCZNE GDY UZYTKOWNIK JEST NIEZALOGOWANY-->
+<!--
+<div class="text-center">
+    <h1 class="display-4">Witaj na Portalu!</h1>
+    <p><a href="/Identity/Account/Login">Zaloguj się</a> lub jeśli nie masz jeszcze konta <a href="/Identity/Account/Register">zarejestruj się</a>!</p>
+</div>-->
+<!--WIDOCZNE GDY UZYTKOWNIK JEST ZALOGOWANY-->
+<h1>Posty Twoich znajomych</h1>
+<a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
+<br /><br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.typ)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_zuytkownicy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tresc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.data_utworzenia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.liczba_like)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.liczba_dislike)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.status_komentarzy)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.typ)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_zuytkownicy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tresc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.data_utworzenia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.liczba_like)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.liczba_dislike)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status_komentarzy)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id_posty">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id_posty">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_posty">Delete</a>
-            </td>
-        </tr>
+@foreach (var item in Model)
+    {
+        posty p = item;
+
+        DateTime data = p.getDate(item.data_utworzenia);
+    <table class="table" border="1">
+        <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
+        <tr><td><b>Dodano:</b> @data</td></tr>
+        <tr><td><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
+    </table>
 }
-    </tbody>
-</table>

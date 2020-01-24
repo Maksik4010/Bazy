@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication16.Data;
 
 namespace WebApplication16.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200124120936_migration003")]
+    partial class migration003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,15 +288,13 @@ namespace WebApplication16.Data.Migrations
 
                     b.Property<int>("liczba_like");
 
-                    b.Property<int?>("postyid");
-
                     b.Property<string>("tresc");
 
                     b.Property<int?>("uzytkownicyid");
 
                     b.HasKey("id_komentarze");
 
-                    b.HasIndex("postyid");
+                    b.HasIndex("id_posty");
 
                     b.HasIndex("uzytkownicyid");
 
@@ -341,13 +341,13 @@ namespace WebApplication16.Data.Migrations
 
             modelBuilder.Entity("WebApplication16.Models.posty", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("id_posty")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("data_utworzenia");
+                    b.Property<int>("data_utworzenia");
 
-                    b.Property<int?>("id_uzytkownikaid");
+                    b.Property<int>("id_uzytkownika");
 
                     b.Property<int>("liczba_dislike");
 
@@ -359,9 +359,11 @@ namespace WebApplication16.Data.Migrations
 
                     b.Property<int>("typ");
 
-                    b.HasKey("id");
+                    b.Property<int?>("uzytkownicyid");
 
-                    b.HasIndex("id_uzytkownikaid");
+                    b.HasKey("id_posty");
+
+                    b.HasIndex("uzytkownicyid");
 
                     b.ToTable("posties");
                 });
@@ -629,7 +631,8 @@ namespace WebApplication16.Data.Migrations
                 {
                     b.HasOne("WebApplication16.Models.posty", "posty")
                         .WithMany("komentarzes")
-                        .HasForeignKey("postyid");
+                        .HasForeignKey("id_posty")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApplication16.Models.uzytkownicy", "uzytkownicy")
                         .WithMany("komentarzes")
@@ -653,9 +656,9 @@ namespace WebApplication16.Data.Migrations
 
             modelBuilder.Entity("WebApplication16.Models.posty", b =>
                 {
-                    b.HasOne("WebApplication16.Models.uzytkownicy", "id_uzytkownika")
+                    b.HasOne("WebApplication16.Models.uzytkownicy", "uzytkownicy")
                         .WithMany("posties")
-                        .HasForeignKey("id_uzytkownikaid");
+                        .HasForeignKey("uzytkownicyid");
                 });
 
             modelBuilder.Entity("WebApplication16.Models.reakcja_na_posty", b =>
