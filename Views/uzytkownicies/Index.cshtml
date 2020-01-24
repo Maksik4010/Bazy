@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ksywka)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.data_zalozenia)
             </th>
             <th>
@@ -35,13 +35,13 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ip_ostatniego_logowania)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.kraj)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.liczba_znajomych)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -63,7 +63,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ksywka)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.data_zalozenia)
             </td>
             <td>
@@ -71,13 +71,13 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ip_ostatniego_logowania)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.kraj)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.liczba_znajomych)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id_uzytkownicy">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id_uzytkownicy">Details</a> |

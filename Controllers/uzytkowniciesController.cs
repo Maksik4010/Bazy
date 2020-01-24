@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebApplication16.Data;
 using WebApplication16.Models;
 
@@ -13,6 +16,10 @@ namespace Portal.Controllers
     public class uzytkowniciesController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        private readonly SignInManager<uzytkownicy> _signInManager;
+        private readonly ILogger _logger;
+
 
         public uzytkowniciesController(ApplicationDbContext context)
         {
@@ -41,6 +48,84 @@ namespace Portal.Controllers
             }
 
             return View(uzytkownicy);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+ 
+            return View();
+        }
+
+        //    [HttpPost]
+        //    [AllowAnonymous]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Login(uzytkownicy model, string returnUrl = null)
+        //    {
+        //        ViewData["ReturnUrl"] = returnUrl;
+        //        if (ModelState.IsValid)
+        //         {
+        //            var result = await _signInManager.PasswordSignInAsync(model.login, model.haslo, false, lockoutOnFailure: false);
+        //            if (result.Succeeded)
+        //            {
+        //                _logger.LogInformation(1, "User logged in.");
+        //                return View(returnUrl);
+        //            }
+        //            //if (result.RequiresTwoFactor)
+        //            //{
+        //            //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl,  });
+        //            //}
+        //            if (result.IsLockedOut)
+        //            {
+        //                _logger.LogWarning(2, "User account locked out.");
+        //                return View("Lockout");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //               // return View(model);
+        //            }
+        //         }
+
+        //        // If we got this far, something failed, redisplay form
+        //        return View(model);
+
+
+        //}
+        //var result = _context.uzytkownicies.FirstOrDefault(m => m.imie == Login);
+        ////if (ModelState.IsValid)
+        ////{
+
+        ////}
+        //if(result == null)
+        //{
+        //    return NotFound();
+        //}
+        //else
+        //    return View("Index");
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string login, string haslo)
+        {
+
+            //var result = _context.uzytkownicies.FirstOrDefaultAsync(e => e.login == uzytkownicy.login && e.haslo == uzytkownicy.haslo);
+
+            //    if(result == null)
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+
+            var uzytkownicyL = await _context.uzytkownicies.FirstOrDefaultAsync(m => m.login == login);
+            var uzytkownicyH = await _context.uzytkownicies.FirstOrDefaultAsync(m => m.haslo == haslo);
+            if (uzytkownicyL == null || uzytkownicyH == null)
+            {
+                return View(uzytkownicyL);
+            }
+
+            return RedirectToAction("Index", "posties");
+
         }
 
         // GET: uzytkownicies/Create
@@ -149,5 +234,7 @@ namespace Portal.Controllers
         {
             return _context.uzytkownicies.Any(e => e.Id_uzytkownicy == id);
         }
+
+        
     }
 }
