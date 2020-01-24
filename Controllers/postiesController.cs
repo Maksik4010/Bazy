@@ -34,7 +34,7 @@ namespace Portal.Controllers
             }
 
             var posty = await _context.posties
-                .FirstOrDefaultAsync(m => m.id_posty == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (posty == null)
             {
                 return NotFound();
@@ -54,10 +54,14 @@ namespace Portal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_posty,typ,id_zuytkownicy,tresc,data_utworzenia,liczba_like,liczba_dislike,status_komentarzy")] posty posty)
+        public async Task<IActionResult> Create([Bind("id,typ,id_uzytkownika,tresc,data_utworzenia,liczba_like,liczba_dislike,status_komentarzy")] posty posty)
         {
             if (ModelState.IsValid)
             {
+                posty.typ = 0; //post publiczny
+                //posty.id_uzytkownika =  TODO
+                posty.data_utworzenia = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                posty.status_komentarzy = 1; //wlaczone
                 _context.Add(posty);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,7 +92,7 @@ namespace Portal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id_posty,typ,id_zuytkownicy,tresc,data_utworzenia,liczba_like,liczba_dislike,status_komentarzy")] posty posty)
         {
-            if (id != posty.id_posty)
+            if (id != posty.id)
             {
                 return NotFound();
             }
@@ -102,7 +106,7 @@ namespace Portal.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!postyExists(posty.id_posty))
+                    if (!postyExists(posty.id))
                     {
                         return NotFound();
                     }
@@ -125,7 +129,7 @@ namespace Portal.Controllers
             }
 
             var posty = await _context.posties
-                .FirstOrDefaultAsync(m => m.id_posty == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (posty == null)
             {
                 return NotFound();
@@ -147,7 +151,12 @@ namespace Portal.Controllers
 
         private bool postyExists(int id)
         {
-            return _context.posties.Any(e => e.id_posty == id);
+            return _context.posties.Any(e => e.id == id);
+        }
+
+        public uzytkownicy getUser(int id)
+        {
+            return _context.uzytkownicies.Find(id);
         }
     }
 }

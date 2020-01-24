@@ -12,16 +12,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id_posty" />
+            <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="typ" class="control-label"></label>
                 <input asp-for="typ" class="form-control" />
                 <span asp-validation-for="typ" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="id_zuytkownicy" class="control-label"></label>
-                <input asp-for="id_zuytkownicy" class="form-control" />
-                <span asp-validation-for="id_zuytkownicy" class="text-danger"></span>
+                <label asp-for="id_uzytkownika" class="control-label"></label>
+                <input asp-for="id_uzytkownika" class="form-control" />
+                <span asp-validation-for="id_uzytkownika" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="tresc" class="control-label"></label>

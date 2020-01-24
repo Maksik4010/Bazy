@@ -41,7 +41,7 @@ namespace Portal.Controllers
             }
 
             var uzytkownicy = await _context.uzytkownicies
-                .FirstOrDefaultAsync(m => m.Id_uzytkownicy == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (uzytkownicy == null)
             {
                 return NotFound();
@@ -139,10 +139,11 @@ namespace Portal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_uzytkownicy,login,haslo,imie,nazwisko,ksywka,data_zalozenia,ostatnie_logowanie,ip_ostatniego_logowania,kraj,liczba_znajomych")] uzytkownicy uzytkownicy)
+        public async Task<IActionResult> Create([Bind("id,login,haslo,imie,nazwisko,ksywka,data_zalozenia,ostatnie_logowanie,ip_ostatniego_logowania,kraj,liczba_znajomych")] uzytkownicy uzytkownicy)
         {
             if (ModelState.IsValid)
             {
+                uzytkownicy.data_zalozenia = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                 _context.Add(uzytkownicy);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -171,9 +172,9 @@ namespace Portal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_uzytkownicy,login,haslo,imie,nazwisko,ksywka,data_zalozenia,ostatnie_logowanie,ip_ostatniego_logowania,kraj,liczba_znajomych")] uzytkownicy uzytkownicy)
+        public async Task<IActionResult> Edit(int id, [Bind("id,login,haslo,imie,nazwisko,ksywka,data_zalozenia,ostatnie_logowanie,ip_ostatniego_logowania,kraj,liczba_znajomych")] uzytkownicy uzytkownicy)
         {
-            if (id != uzytkownicy.Id_uzytkownicy)
+            if (id != uzytkownicy.id)
             {
                 return NotFound();
             }
@@ -187,7 +188,7 @@ namespace Portal.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!uzytkownicyExists(uzytkownicy.Id_uzytkownicy))
+                    if (!uzytkownicyExists(uzytkownicy.id))
                     {
                         return NotFound();
                     }
@@ -210,7 +211,7 @@ namespace Portal.Controllers
             }
 
             var uzytkownicy = await _context.uzytkownicies
-                .FirstOrDefaultAsync(m => m.Id_uzytkownicy == id);
+                .FirstOrDefaultAsync(m => m.id == id);
             if (uzytkownicy == null)
             {
                 return NotFound();
@@ -232,7 +233,7 @@ namespace Portal.Controllers
 
         private bool uzytkownicyExists(int id)
         {
-            return _context.uzytkownicies.Any(e => e.Id_uzytkownicy == id);
+            return _context.uzytkownicies.Any(e => e.id == id);
         }
 
         
