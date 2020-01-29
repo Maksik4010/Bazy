@@ -12,14 +12,20 @@
 </div>-->
 <!--WIDOCZNE GDY UZYTKOWNIK JEST ZALOGOWANY-->
 <h1>Posty Twoich znajomych</h1>
-<a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
-<br /><br />
+@using (Html.BeginForm())
+{
+    <a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
+    @Html.TextBox("searchString")
+    <input type="submit" class="btn btn-primary" value="Szukaj" />
+}
+<br />
+<br />
 
 @foreach (var item in Model)
-    {
-        posty p = item;
+{
+    posty p = item;
 
-        DateTime data = p.getDate(item.data_utworzenia);
+    DateTime data = p.getDate(item.data_utworzenia);
     <table class="table" border="1">
         <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
         <tr><td><b>Dodano:</b> @data</td></tr>

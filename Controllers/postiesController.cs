@@ -20,9 +20,15 @@ namespace Portal.Controllers
         }
 
         // GET: posties
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.posties.ToListAsync());
+            var posts = from p in _context.posties select p;
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                posts = posts.Where(p => p.tresc.Contains(searchString));
+            }
+            //return View(await _context.posties.ToListAsync());
+            return View(posts.ToList());
         }
 
         // GET: posties/Details/5
