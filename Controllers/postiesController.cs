@@ -20,15 +20,33 @@ namespace Portal.Controllers
         }
 
         // GET: posties
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
+            //ViewBag.sortName = 
+            //ViewBag.sortSurname = 
+            ViewBag.sortContent = (String.IsNullOrEmpty(sortOrder) || sortOrder=="content_desc") ? "content_asc" : "content_desc";
+            ViewBag.sortDate = (String.IsNullOrEmpty(sortOrder) || sortOrder=="date_desc") ? "date_asc" : "date_desc";
             var posts = from p in _context.posties select p;
             if(!String.IsNullOrEmpty(searchString))
             {
                 posts = posts.Where(p => p.tresc.Contains(searchString));
             }
-            //return View(await _context.posties.ToListAsync());
+
+            switch(sortOrder)
+            {
+                case "content_asc":
+                    posts = posts.OrderBy(p => p.tresc); break;
+                case "content_desc":
+                    posts = posts.OrderByDescending(p => p.tresc); break;
+                case "date_asc":
+                    posts = posts.OrderBy(p => p.data_utworzenia); break;
+                case "date_desc":
+                    posts = posts.OrderByDescending(p => p.data_utworzenia); break;
+            }
+
+
             return View(posts.ToList());
+            //return View(await _context.posties.ToListAsync());
         }
 
         // GET: posties/Details/5

@@ -12,12 +12,24 @@
 </div>-->
 <!--WIDOCZNE GDY UZYTKOWNIK JEST ZALOGOWANY-->
 <h1>Posty Twoich znajomych</h1>
+
+<div style="float:left;"><a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a></div>
+<div style="float:right;">
 @using (Html.BeginForm())
 {
-    <a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
     @Html.TextBox("searchString")
     <input type="submit" class="btn btn-primary" value="Szukaj" />
 }
+</div>
+<br /><br />
+<div style="clear: left;">
+    @Html.Raw("Sortuj wg: ")
+    @Html.ActionLink("Imię", "Index", new { sortOrder = ViewBag.sortName }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Nazwisko", "Index", new { sortOrder = ViewBag.sortSurname }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Data utworzenia", "Index", new { sortOrder = ViewBag.sortDate }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Treść posta", "Index", new { sortOrder = ViewBag.sortContent }, new { @class = "btn btn-primary" })
+</div>
+
 <br />
 <br />
 
@@ -27,8 +39,7 @@
 
     DateTime data = p.getDate(item.data_utworzenia);
     <table class="table" border="1">
-        <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
-        <tr><td><b>Dodano:</b> @data</td></tr>
-        <tr><td><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
+        <tr><td><b>Dodał:</b> [imię] [nazwisko]</td><td style="text-align: right;"><b>Dodano:</b> @data</td></tr>
+        <tr><td colspan="2"><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
     </table>
 }
