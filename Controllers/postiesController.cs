@@ -20,19 +20,33 @@ namespace Portal.Controllers
         }
 
         // GET: posties
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            if(id == 1)
+            //ViewBag.sortName = 
+            //ViewBag.sortSurname = 
+            ViewBag.sortContent = (String.IsNullOrEmpty(sortOrder) || sortOrder=="content_desc") ? "content_asc" : "content_desc";
+            ViewBag.sortDate = (String.IsNullOrEmpty(sortOrder) || sortOrder=="date_desc") ? "date_asc" : "date_desc";
+            var posts = from p in _context.posties select p;
+            if(!String.IsNullOrEmpty(searchString))
             {
-                ViewBag.status = true;
-                ViewBag.imie = TempData["imie"];
-                //var b = _context.uzytkownicies.Where(a => a.id == ide).ToString();
-                //ViewBag.imie = id ;
-                return View(await _context.posties.ToListAsync());
+                posts = posts.Where(p => p.tresc.Contains(searchString));
             }
 
-            return View(await _context.posties.ToListAsync());
+            switch(sortOrder)
+            {
+                case "content_asc":
+                    posts = posts.OrderBy(p => p.tresc); break;
+                case "content_desc":
+                    posts = posts.OrderByDescending(p => p.tresc); break;
+                case "date_asc":
+                    posts = posts.OrderBy(p => p.data_utworzenia); break;
+                case "date_desc":
+                    posts = posts.OrderByDescending(p => p.data_utworzenia); break;
+            }
 
+
+            return View(posts.ToList());
+            //return View(await _context.posties.ToListAsync());
         }
 
         // GET: posties/Details/5
@@ -74,7 +88,7 @@ namespace Portal.Controllers
                 posty.status_komentarzy = 1; //wlaczone
                 _context.Add(posty);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = 1 });
+                return RedirectToAction(nameof(Index));
             }
             return View(posty);
         }
@@ -125,7 +139,7 @@ namespace Portal.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = 1 });
+                return RedirectToAction(nameof(Index));
             }
             return View(posty);
         }
@@ -156,7 +170,7 @@ namespace Portal.Controllers
             var posty = await _context.posties.FindAsync(id);
             _context.posties.Remove(posty);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new { id = 1 });
+            return RedirectToAction(nameof(Index));
         }
 
         private bool postyExists(int id)
