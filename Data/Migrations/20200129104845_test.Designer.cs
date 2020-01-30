@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication16.Data;
 
 namespace WebApplication16.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200129104845_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,12 +257,11 @@ namespace WebApplication16.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("data_zalozenia");
+                    b.Property<int>("data_zalozenia");
 
                     b.Property<int>("id_uzytkownicy");
 
-                    b.Property<string>("nazwa")
-                        .IsRequired();
+                    b.Property<string>("nazwa");
 
                     b.Property<int?>("uzytkownicyid");
 
@@ -348,7 +349,7 @@ namespace WebApplication16.Data.Migrations
 
                     b.Property<long>("data_utworzenia");
 
-                    b.Property<int>("id_uzytkownika");
+                    b.Property<int?>("id_uzytkownikaid");
 
                     b.Property<int>("liczba_dislike");
 
@@ -361,11 +362,9 @@ namespace WebApplication16.Data.Migrations
 
                     b.Property<int>("typ");
 
-                    b.Property<int?>("uzytkownicyid");
-
                     b.HasKey("id");
 
-                    b.HasIndex("uzytkownicyid");
+                    b.HasIndex("id_uzytkownikaid");
 
                     b.ToTable("posties");
                 });
@@ -657,9 +656,9 @@ namespace WebApplication16.Data.Migrations
 
             modelBuilder.Entity("WebApplication16.Models.posty", b =>
                 {
-                    b.HasOne("WebApplication16.Models.uzytkownicy", "uzytkownicy")
+                    b.HasOne("WebApplication16.Models.uzytkownicy", "id_uzytkownika")
                         .WithMany("posties")
-                        .HasForeignKey("uzytkownicyid");
+                        .HasForeignKey("id_uzytkownikaid");
                 });
 
             modelBuilder.Entity("WebApplication16.Models.reakcja_na_posty", b =>

@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApplication16.Data;
 using WebApplication16.Models;
+using System.Web;
 
 namespace Portal.Controllers
 {
@@ -17,13 +18,18 @@ namespace Portal.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        private readonly SignInManager<uzytkownicy> _signInManager;
+        //private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger _logger;
+        //private readonly UserManager<IdentityUser> _userManager;
+        //private bool status = false;
 
 
-        public uzytkowniciesController(ApplicationDbContext context)
+        public uzytkowniciesController(ApplicationDbContext context, ILogger<uzytkowniciesController> logger)
         {
             _context = context;
+            ///_userManager = userManager;
+           //_signInManager = signInManager;
+            _logger = logger;
         }
 
         // GET: uzytkownicies
@@ -58,73 +64,20 @@ namespace Portal.Controllers
             return View();
         }
 
-        //    [HttpPost]
-        //    [AllowAnonymous]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Login(uzytkownicy model, string returnUrl = null)
-        //    {
-        //        ViewData["ReturnUrl"] = returnUrl;
-        //        if (ModelState.IsValid)
-        //         {
-        //            var result = await _signInManager.PasswordSignInAsync(model.login, model.haslo, false, lockoutOnFailure: false);
-        //            if (result.Succeeded)
-        //            {
-        //                _logger.LogInformation(1, "User logged in.");
-        //                return View(returnUrl);
-        //            }
-        //            //if (result.RequiresTwoFactor)
-        //            //{
-        //            //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl,  });
-        //            //}
-        //            if (result.IsLockedOut)
-        //            {
-        //                _logger.LogWarning(2, "User account locked out.");
-        //                return View("Lockout");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //               // return View(model);
-        //            }
-        //         }
-
-        //        // If we got this far, something failed, redisplay form
-        //        return View(model);
-
-
-        //}
-        //var result = _context.uzytkownicies.FirstOrDefault(m => m.imie == Login);
-        ////if (ModelState.IsValid)
-        ////{
-
-        ////}
-        //if(result == null)
-        //{
-        //    return NotFound();
-        //}
-        //else
-        //    return View("Index");
-
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string login, string haslo)
+        public async Task<IActionResult> Login(uzytkownicy model)
         {
-
-            //var result = _context.uzytkownicies.FirstOrDefaultAsync(e => e.login == uzytkownicy.login && e.haslo == uzytkownicy.haslo);
-
-            //    if(result == null)
-            //    {
-            //        return RedirectToAction(nameof(Index));
-            //    }
-
-            var uzytkownicyL = await _context.uzytkownicies.FirstOrDefaultAsync(m => m.login == login);
-            var uzytkownicyH = await _context.uzytkownicies.FirstOrDefaultAsync(m => m.haslo == haslo);
-            if (uzytkownicyL == null || uzytkownicyH == null)
-            {
-                return View(uzytkownicyL);
-            }
-
-            return RedirectToAction("Index", "posties");
+           
+               var b = _context.uzytkownicies.Where(a => a.login == model.login && a.haslo == model.haslo).FirstOrDefault();
+                if (b != null)
+                {
+                TempData["imie"] = model.login;
+                return RedirectToAction("Index", "posties", new { id  = 1}) ;
+                
+                }
+            return View();
 
         }
 
@@ -146,6 +99,8 @@ namespace Portal.Controllers
                 uzytkownicy.data_zalozenia = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                 _context.Add(uzytkownicy);
                 await _context.SaveChangesAsync();
+
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(uzytkownicy);
@@ -235,6 +190,8 @@ namespace Portal.Controllers
         {
             return _context.uzytkownicies.Any(e => e.id == id);
         }
+
+
 
         
     }

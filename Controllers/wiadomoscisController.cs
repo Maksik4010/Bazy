@@ -20,10 +20,15 @@ namespace Portal.Controllers
         }
 
         // GET: wiadomoscis
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            var applicationDbContext = _context.wiadomoscis.Include(w => w.uzytkownicy);
-            return View(await applicationDbContext.ToListAsync());
+            if (id == 1)
+            {
+                ViewBag.imie = "dipa";
+                var applicationDbContext = _context.wiadomoscis.Include(w => w.uzytkownicy);
+                return View();
+            }
+            return View();
         }
 
         // GET: wiadomoscis/Details/5

@@ -13,6 +13,11 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Input.login" class="control-label"></label>
+                <input asp-for="Input.login" class="form-control" />
+                <span asp-validation-for="Input.login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -26,6 +31,26 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.imie" class="control-label"></label>
+                <input asp-for="Input.imie" class="form-control" />
+                <span asp-validation-for="Input.imie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.nazwisko" class="control-label"></label>
+                <input asp-for="Input.nazwisko" class="form-control" />
+                <span asp-validation-for="Input.nazwisko" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ksywka" class="control-label"></label>
+                <input asp-for="Input.ksywka" class="form-control" />
+                <span asp-validation-for="Input.ksywka" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.kraj" class="control-label"></label>
+                <input asp-for="Input.kraj" class="form-control" />
+                <span asp-validation-for="Input.kraj" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
