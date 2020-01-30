@@ -13,50 +13,22 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="typ" class="control-label"></label>
-                <input asp-for="typ" class="form-control" />
-                <span asp-validation-for="typ" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="id_uzytkownika" class="control-label"></label>
-                <input asp-for="id_uzytkownika" class="form-control" />
-                <span asp-validation-for="id_uzytkownika" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="typ" />
+            <input type="hidden" asp-for="id_uzytkownika" />
+            <input type="hidden" asp-for="liczba_like" />
+            <input type="hidden" asp-for="liczba_dislike" />
+            <input type="hidden" asp-for="status_komentarzy" />
             <div class="form-group">
                 <label asp-for="tresc" class="control-label"></label>
                 <input asp-for="tresc" class="form-control" />
                 <span asp-validation-for="tresc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="data_utworzenia" class="control-label"></label>
-                <input asp-for="data_utworzenia" class="form-control" />
-                <span asp-validation-for="data_utworzenia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="liczba_like" class="control-label"></label>
-                <input asp-for="liczba_like" class="form-control" />
-                <span asp-validation-for="liczba_like" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="liczba_dislike" class="control-label"></label>
-                <input asp-for="liczba_dislike" class="form-control" />
-                <span asp-validation-for="liczba_dislike" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="status_komentarzy" class="control-label"></label>
-                <input asp-for="status_komentarzy" class="form-control" />
-                <span asp-validation-for="status_komentarzy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-success" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

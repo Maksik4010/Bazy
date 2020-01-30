@@ -29,7 +29,7 @@ namespace Portal.Controllers
             var posts = from p in _context.posties select p;
             if(!String.IsNullOrEmpty(searchString))
             {
-                posts = posts.Where(p => p.tresc.Contains(searchString));
+                posts = posts.Where(p => p.tresc.Contains(searchString) || p.getDate(p.data_utworzenia).ToString().Contains(searchString));
             }
 
             switch(sortOrder)
@@ -41,6 +41,8 @@ namespace Portal.Controllers
                 case "date_asc":
                     posts = posts.OrderBy(p => p.data_utworzenia); break;
                 case "date_desc":
+                    posts = posts.OrderByDescending(p => p.data_utworzenia); break;
+                default:
                     posts = posts.OrderByDescending(p => p.data_utworzenia); break;
             }
 
@@ -114,7 +116,7 @@ namespace Portal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_posty,typ,id_zuytkownicy,tresc,data_utworzenia,liczba_like,liczba_dislike,status_komentarzy")] posty posty)
+        public async Task<IActionResult> Edit(int id, [Bind("id,typ,id_uzytkownika,tresc,data_utworzenia,liczba_like,liczba_dislike,status_komentarzy")] posty posty)
         {
             if (id != posty.id)
             {
@@ -125,6 +127,7 @@ namespace Portal.Controllers
             {
                 try
                 {
+                    posty.data_utworzenia = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                     _context.Update(posty);
                     await _context.SaveChangesAsync();
                 }
