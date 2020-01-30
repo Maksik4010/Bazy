@@ -1,7 +1,40 @@
-﻿@model IEnumerable<WebApplication16.Models.posty>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model IEnumerable<WebApplication16.Models.posty>
 
 @{
     ViewData["Title"] = "Portal - Strona główna";
+}
+
+@if(@ViewBag.status == true)
+{
+    <h1>Posty Twoich znajomych</h1>
+    <a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
+    <br />
+    <br />
+
+    @foreach (var item in Model)
+    {
+        posty p = item;
+
+        DateTime data = p.getDate(item.data_utworzenia);
+        <table class="table" border="1">
+            <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
+            <tr><td><b>Dodano:</b> @data</td></tr>
+            <tr><td><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
+        </table>
+    }
+
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Witaj na Portalu!</h1>
+        <p><a href="/Identity/Account/Login">Zaloguj się</a> lub jeśli nie masz jeszcze konta <a href="/Identity/Account/Register">zarejestruj się</a>!</p>
+    </div>
+
 }
 
 <!--TODO: WIDOCZNE GDY UZYTKOWNIK JEST NIEZALOGOWANY-->
@@ -11,18 +44,19 @@
     <p><a href="/Identity/Account/Login">Zaloguj się</a> lub jeśli nie masz jeszcze konta <a href="/Identity/Account/Register">zarejestruj się</a>!</p>
 </div>-->
 <!--WIDOCZNE GDY UZYTKOWNIK JEST ZALOGOWANY-->
-<h1>Posty Twoich znajomych</h1>
+@*<h1>Posty Twoich znajomych</h1>
 <a asp-controller="posties" asp-action="Create" class="btn btn-primary">Dodaj post</a>
-<br /><br />
+<br />
+<br />
 
 @foreach (var item in Model)
-    {
-        posty p = item;
+{
+    posty p = item;
 
-        DateTime data = p.getDate(item.data_utworzenia);
+    DateTime data = p.getDate(item.data_utworzenia);
     <table class="table" border="1">
         <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
         <tr><td><b>Dodano:</b> @data</td></tr>
         <tr><td><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
     </table>
-}
+}*@

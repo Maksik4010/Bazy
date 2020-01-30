@@ -20,9 +20,19 @@ namespace Portal.Controllers
         }
 
         // GET: posties
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
+            if(id == 1)
+            {
+                ViewBag.status = true;
+                ViewBag.imie = TempData["imie"];
+                //var b = _context.uzytkownicies.Where(a => a.id == ide).ToString();
+                //ViewBag.imie = id ;
+                return View(await _context.posties.ToListAsync());
+            }
+
             return View(await _context.posties.ToListAsync());
+
         }
 
         // GET: posties/Details/5
@@ -64,7 +74,7 @@ namespace Portal.Controllers
                 posty.status_komentarzy = 1; //wlaczone
                 _context.Add(posty);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = 1 });
             }
             return View(posty);
         }
@@ -115,7 +125,7 @@ namespace Portal.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = 1 });
             }
             return View(posty);
         }
@@ -146,7 +156,7 @@ namespace Portal.Controllers
             var posty = await _context.posties.FindAsync(id);
             _context.posties.Remove(posty);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = 1 });
         }
 
         private bool postyExists(int id)
