@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<WebApplication16.Models.pliki>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <a asp-controller="plikis" asp-action="Create" class="btn btn-primary">Dodaj pliki</a>
+    <div id="room-image">
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr><td><b>Dodał:</b> @User.Identity.Name </td><td style="text-align: right;"></td></tr>
+                <img src="@item.link_bezpośredni" width="100%" height="100%" />
+                <br />
+
+
+            }
+        }
+    </div>
+
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Witaj na Portalu!</h1>
+        <p><a href="/Identity/Account/Login">Zaloguj się</a> lub jeśli nie masz jeszcze konta <a href="/Identity/Account/Register">zarejestruj się</a>!</p>
+    </div>
+}

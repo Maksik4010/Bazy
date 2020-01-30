@@ -12,11 +12,11 @@ namespace WebApplication16.Models
         [Key]
         public int id{ get; set; }
 
-        [Required]
+       
         [Display(Name = "Login")]
         public string login { get; set; }
 
-        [Required]
+        
         [Display(Name = "Hasło")]
         [StringLength(32, ErrorMessage = "{0} musi mieć od {2} do {1} znaków.", MinimumLength = 4)]
         [DataType(DataType.Password)]

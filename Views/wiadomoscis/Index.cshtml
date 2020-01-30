@@ -1,63 +1,78 @@
-﻿@model IEnumerable<WebApplication16.Models.wiadomosci>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<WebApplication16.Models.wiadomosci>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-@if (@ViewBag.status == true)
+@if (SignInManager.IsSignedIn(User))
 {
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id_konwersacji)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.uzytkownicy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tresc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.data_utworzenia)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.czy_usunieta)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+    <h1>Index</h1>
+    @if (@ViewBag.status == true)
+    {
+
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id_konwersacji)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.uzytkownicy.id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tresc)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.data_utworzenia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.czy_usunieta)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id_wiadomosci">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id_wiadomosci">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id_wiadomosci">Delete</a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id_konwersacji)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.uzytkownicy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tresc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.data_utworzenia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.czy_usunieta)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_konwersacji)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.uzytkownicy.id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tresc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.data_utworzenia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.czy_usunieta)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id_wiadomosci">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id_wiadomosci">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id_wiadomosci">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Witaj na Portalu!</h1>
+        <p><a href="/Identity/Account/Login">Zaloguj się</a> lub jeśli nie masz jeszcze konta <a href="/Identity/Account/Register">zarejestruj się</a>!</p>
+    </div>
 }

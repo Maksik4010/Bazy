@@ -20,14 +20,14 @@ namespace Portal.Controllers
 
         //private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger _logger;
-        //private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         //private bool status = false;
 
 
-        public uzytkowniciesController(ApplicationDbContext context, ILogger<uzytkowniciesController> logger)
+        public uzytkowniciesController(ApplicationDbContext context, ILogger<uzytkowniciesController> logger,UserManager<IdentityUser> userManager)
         {
             _context = context;
-            ///_userManager = userManager;
+            _userManager = userManager;
            //_signInManager = signInManager;
             _logger = logger;
         }
@@ -97,6 +97,7 @@ namespace Portal.Controllers
             if (ModelState.IsValid)
             {
                 uzytkownicy.data_zalozenia = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+               // uzytkownicy.login = _userManager.
                 _context.Add(uzytkownicy);
                 await _context.SaveChangesAsync();
 
