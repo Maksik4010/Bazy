@@ -21,7 +21,7 @@
 
         DateTime data = p.getDate(item.data_utworzenia);
     <table class="table" border="1">
-        <tr><td><b>Dodał:</b> [imię] [nazwisko]</td></tr>
+        <tr><td><b>Dodał:</b> @Html.DisplayFor(modelItem => item.id_uzytkownika)</td></tr>
         <tr><td><b>Dodano:</b> @data</td></tr>
         <tr><td><b>Treść posta:</b>  @Html.DisplayFor(modelItem => item.tresc)</td></tr>
     </table>

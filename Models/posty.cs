@@ -11,8 +11,8 @@ namespace WebApplication16.Models
         [Key]
         public int id { get; set; }
         public int typ { get; set; }
-        //public int id_uzytkownika { get; set; }
-        public uzytkownicy id_uzytkownika { get; set; }
+        public int id_uzytkownika { get; set; }
+        public uzytkownicy uzytkownicy { get; set; }
 
         [Required]
         [Display(Name = "Treść posta: ")]
